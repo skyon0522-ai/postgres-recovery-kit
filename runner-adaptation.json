@@ -1,0 +1,22 @@
+{
+  "reference": "candidate recovery-improvement/run-isolated.py, executed 2026-10-09",
+  "original_runner_sha256": "b0c5e0b1df285fabd790abaf07b0a51b0a6927b8587e008b681d1833d722ee20",
+  "portable_runner_sha256": "221866abce2a45b8660908138da2b5ce593ad8136e0f1ab997b3d6b6b904fdca",
+  "diff_sha256": "12fadc3a858b4d822652a9c815a552964f4b5c6e4b916fb8329129d9f05db9db",
+  "public_diff_note": "The prior runner's operator-specific home paths are redacted; the exact original/final hashes are recorded.",
+  "changes": [
+    "Explicit Linux Go/PostgreSQL tool paths and native output parent",
+    "Fresh owned build/data/log directories; short private Unix socket path",
+    "Build server from the exact staged source component",
+    "Optional existing checksum-verified module cache and offline mode",
+    "Source-byte verification before and after instead of private baseline paths",
+    "Recorded runtime local replacement and tool versions"
+  ],
+  "preserved_behavior": [
+    "Same reviewed recovery test",
+    "Sequential synthetic loopback-only scenario",
+    "Clean PostgreSQL restart and exact three-row readback",
+    "Owned-service cleanup and retained data",
+    "Failed run returns exit code 1"
+  ]
+}

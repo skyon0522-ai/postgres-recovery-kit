@@ -1,0 +1,60 @@
+{
+  "source_repository": "https://github.com/Shopify/toxiproxy",
+  "tag": "v2.12.0",
+  "commit": "3ccd6a79cbc6c6a72b884d295ad314b75cdf3962",
+  "upstream_reference": "_examples/tests",
+  "exact_unchanged_files": [
+    "LICENSE",
+    "db.go",
+    "go.sum",
+    "main.go",
+    "models.go"
+  ],
+  "modified_copied_files": [
+    "db_test.go",
+    "go.mod"
+  ],
+  "new_test_files": [
+    "recovery_test.go"
+  ],
+  "diff_summary": [
+    {
+      "path": "db_test.go",
+      "added_lines": 20,
+      "removed_lines": 29,
+      "original_sha256": "a3472b346cc2bb57acc84b25d9587bbcb41cbeedc68d128978b835daec8e3b88",
+      "adapted_sha256": "fc13d22e061476d3b733c8ce724e391a315c149c12154db634872dd287b8b751"
+    },
+    {
+      "path": "go.mod",
+      "added_lines": 1,
+      "removed_lines": 1,
+      "original_sha256": "a77be6bc0932369721c7b9c8c4529986596595271aee3543ebd7a4cad649af26",
+      "adapted_sha256": "556e8d1efa1d32f8947f638b7c69174e6251acb53f8ceacc187121c642d92209"
+    },
+    {
+      "path": "recovery_test.go",
+      "added_lines": 124,
+      "removed_lines": 0,
+      "original_sha256": null,
+      "adapted_sha256": "0e3a5d7bbcf572c80f15dd27f83e57c452e2fa85e1c9209c1ffd09cefc38414a"
+    }
+  ],
+  "changes_to_source_component": false,
+  "example_directory": "recovery-improvement/example",
+  "manifest_origin": "go.mod and go.sum were authored for the candidate baseline; they are not upstream example files.",
+  "runtime_reuse_boundary": {
+    "executed": [
+      "copied Toxiproxy server",
+      "copied client API",
+      "adapted init/populateProxies/connectDB path"
+    ],
+    "compiled_only": [
+      "unchanged setupDB",
+      "unchanged seed",
+      "unchanged process"
+    ],
+    "authored_extension": "keyed conditional INSERT and deterministic recovery assertions"
+  },
+  "adaptation_diff_sha256": "79a102f13553747b81359d502f678c03346bc28f6fe7ed2fd3cdc2daf33a362e"
+}

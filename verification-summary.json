@@ -1,0 +1,184 @@
+{
+  "observed_at_utc": "20261009T132045255415Z",
+  "status": "recovery_and_keyed_retry_passed_restart_readback_verified",
+  "synthetic_only": true,
+  "go_version": "go version go1.27.2 linux/amd64",
+  "postgres_version": "pg_ctl (PostgreSQL) 18.6",
+  "source_commit": "3ccd6a79cbc6c6a72b884d295ad314b75cdf3962",
+  "runtime_component": "components/toxiproxy",
+  "raw_component_files": 87,
+  "reviewed_adapter_files": 8,
+  "recovery_test_sha256": "0e3a5d7bbcf572c80f15dd27f83e57c452e2fa85e1c9209c1ffd09cefc38414a",
+  "steps": [
+    {
+      "label": "go-version",
+      "exit_code": 0,
+      "elapsed_seconds": 0.193,
+      "stdout_sha256": "ed4307d760c597256afdc696a61d47d13e832615d7741ead11c64966a440b376",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "postgres-version",
+      "exit_code": 0,
+      "elapsed_seconds": 0.009,
+      "stdout_sha256": "b040f954933f5335d04100a7ea81ef2deae74af720d5d29ea19e1c889c01d271",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "build-copied-server",
+      "exit_code": 0,
+      "elapsed_seconds": 26.049,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "component-module-verify",
+      "exit_code": 0,
+      "elapsed_seconds": 0.635,
+      "stdout_sha256": "b4537ed75f533f993f371954de47e42a793b8e5b0587577de7e27fb3e50696bd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "build-recovery-test",
+      "exit_code": 0,
+      "elapsed_seconds": 9.265,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "example-module-verify",
+      "exit_code": 0,
+      "elapsed_seconds": 0.829,
+      "stdout_sha256": "b4537ed75f533f993f371954de47e42a793b8e5b0587577de7e27fb3e50696bd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "copied-module-path",
+      "exit_code": 0,
+      "elapsed_seconds": 0.194,
+      "stdout_sha256": "5dd3c3d52cd8fe62d93a54f8033421e742f0775fa08def8ef0ef3d3715285101",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "initdb",
+      "exit_code": 0,
+      "elapsed_seconds": 0.603,
+      "stdout_sha256": "dd577eba2f73eedc490bd10e0219f4cd11324c371b4163f9897b35a98516475d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "postgres-start",
+      "exit_code": 0,
+      "elapsed_seconds": 0.109,
+      "stdout_sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "createdb",
+      "exit_code": 0,
+      "elapsed_seconds": 0.086,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "durability-settings",
+      "exit_code": 0,
+      "elapsed_seconds": 0.011,
+      "stdout_sha256": "cbd67ec75dfc8e2f588cfccdf7346105fbdce786c538fb48b5c729029f102d60",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "TestDurableRecovery",
+      "exit_code": 0,
+      "elapsed_seconds": 2.051,
+      "stdout_sha256": "39f2cf7afddb208b478a90df795d5ea20b7a15100454c1cae4ebbad3929eb301",
+      "stderr_sha256": "6f36e2cfa6c27da408cfcca269753165a9d51b4fcec8084bae6910dd80274a49"
+    },
+    {
+      "label": "postgres-restart",
+      "exit_code": 0,
+      "elapsed_seconds": 0.307,
+      "stdout_sha256": "8db95e2a0ec84c72c6d7118a29a204a2513b26251c88fbc2e2f5eb0bd8fbbd6a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "durable-row-readback",
+      "exit_code": 0,
+      "elapsed_seconds": 0.013,
+      "stdout_sha256": "b1a81dfa24480ea28a0ba44902a45783cdfc731c21ddea4d2888bed6dd55aea4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "postgres-stop",
+      "exit_code": 0,
+      "elapsed_seconds": 0.106,
+      "stdout_sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "selected_test": "TestDurableRecovery",
+  "test_output_pass_duration_seconds": 2.04,
+  "outage_write_refused_and_absent": true,
+  "same_pool_recovered": true,
+  "committed_lost_ack_observed_independently": true,
+  "same_key_retry_rows_affected": 0,
+  "clean_postgres_restart_only": true,
+  "durability_settings": "on|on|on",
+  "durable_rows_after_restart": [
+    "after-outage|value:after-outage",
+    "before-outage|value:before-outage",
+    "lost-ack|value:lost-ack"
+  ],
+  "proxy_after_test": {
+    "enabled": true,
+    "toxics": []
+  },
+  "postgres_stopped": true,
+  "toxiproxy_exit_code": 0,
+  "listeners_final": [],
+  "socket_directory_removed": true,
+  "cleanup_verified": true,
+  "synthetic_data_retained_outside_source_stage": true,
+  "staged_source_hashes_before_after": 95,
+  "changed_staged_paths": [],
+  "final_source_readback": {
+    "status": "source_verified",
+    "component_files": 87,
+    "adapted_files": 8,
+    "mode_check_enabled": false,
+    "changed": []
+  },
+  "native_source_mode_readback": {
+    "status": "source_verified",
+    "component_files": 87,
+    "adapted_files": 8,
+    "mode_check_enabled": true,
+    "changed": []
+  },
+  "original_protected_paths": 182,
+  "changed_original_paths": [],
+  "original_fixture_restarted": false,
+  "dependency_cache_reused": true,
+  "module_proxy": "off",
+  "fresh_dependency_download_tested": false,
+  "remote_ci_run": false,
+  "ci_scope": "Raw source/mode verification and server/test compilation only",
+  "original_or_full_suites_rerun_for_stage": false,
+  "limitations": [
+    "One deterministic sequential scenario",
+    "Clean restart only",
+    "No general exactly-once guarantee",
+    "No concurrent replay, failover, crash, power-loss, load or production claim"
+  ],
+  "public_writes": [],
+  "provider_calls": [],
+  "failure_exit_propagation_probe": {
+    "trigger": "Empty module cache with offline dependency access",
+    "exit_code": 1,
+    "status": "failed_preserved",
+    "error": "RuntimeError: build-copied-server failed: 1; see preserved logs",
+    "cleanup_verified": true,
+    "services_started": false,
+    "changed_source_paths": []
+  }
+}

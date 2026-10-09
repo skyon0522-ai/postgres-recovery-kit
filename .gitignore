@@ -1,0 +1,5 @@
+.verification/
+.go-cache/
+*.test
+toxiproxy-server
+__pycache__/

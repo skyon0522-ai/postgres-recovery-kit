@@ -1,0 +1,36 @@
+name: Verify pinned source and compile recovery rehearsal
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  source-and-build:
+    runs-on: ubuntu-latest
+    env:
+      GOTOOLCHAIN: local
+      GOWORK: 'off'
+      GOFLAGS: -mod=readonly
+      GOSUMDB: sum.golang.org
+      CGO_ENABLED: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: recovery-improvement/example/go.mod
+          cache: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify raw source bytes and source modes
+        run: python3 -B tools/verify_source.py --check-modes
+      - name: Build the copied Toxiproxy server
+        working-directory: components/toxiproxy
+        run: |
+          go build -trimpath -o "$RUNNER_TEMP/toxiproxy-server" ./cmd/server
+          go mod verify
+      - name: Compile the recovery test without starting a database
+        working-directory: recovery-improvement/example
+        run: |
+          go test -c -trimpath -o "$RUNNER_TEMP/recovery.test" .
+          go mod verify
+      - name: Verify source bytes remained unchanged
+        run: python3 -B tools/verify_source.py --check-modes

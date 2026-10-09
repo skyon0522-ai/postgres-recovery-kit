@@ -1,0 +1,57 @@
+---
+
+name: Analysis
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: 13 7 * * 6
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@4696ba8babb6127d732c3c6dde519db15edab9ea
+        with:
+          version: v1.62.2
+
+      - name: shellcheck
+        uses: azohra/shell-linter@30a9cf3f6cf25c08fc98f10d7dc4167f7b5c0c00
+        with:
+          path: scripts/test-*
+          severity: error
+
+      - name: yaml-lint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          config_file: .yamllint.yml
+
+  vulnerabilities:
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: initialize
+        uses: github/codeql-action/init@v3
+        with:
+          languages: go
+
+      - name: codeql analyze
+        uses: github/codeql-action/analyze@v3
