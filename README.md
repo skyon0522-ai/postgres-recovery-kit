@@ -4,6 +4,15 @@ Rehearse what a database client can observe when a network outage refuses a writ
 
 The distinction matters when deciding whether to retry a timed-out operation: a client error alone does not establish that the database rejected it. Here an independent connection observes the committed row before the same key is retried with `ON CONFLICT DO NOTHING`.
 
+## Repository guide
+
+The [runner](tools/verify_recovery.py) starts the local services and selects
+[`TestDurableRecovery`](recovery-improvement/example/recovery_test.go). The
+[adapted example](recovery-improvement/example/), [copied components](components/)
+and [provenance](PROVENANCE.md) show what executes and what was changed.
+Use the [verification record](VERIFICATION.md) for observed results and
+[research note](RESEARCH.md) for the retry rationale.
+
 ## Run the rehearsal
 
 Use Linux as a non-root user, Python 3, `ss` from iproute2, Go 1.27.2 and PostgreSQL 18.6 binaries. The runner checks the two runtime versions. Use an existing native Linux output directory; PostgreSQL requires effective private data-directory permissions. Nothing is installed by these commands.
