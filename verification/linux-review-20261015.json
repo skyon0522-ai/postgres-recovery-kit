@@ -1,0 +1,50 @@
+{
+  "observed_date": "2026-10-15",
+  "base_commit": "6bec69644d0744d30844820a9b4c4f3c775d6aae",
+  "environment": {
+    "distribution": "Ubuntu 24.04.4 LTS",
+    "architecture": "x86_64",
+    "python": "3.12.3",
+    "go": "1.27.2",
+    "postgresql": "18.6"
+  },
+  "original_native_runner_and_go_adapter_unchanged": true,
+  "component_files": 87,
+  "protected_adapter_files": 8,
+  "normal_acquisition_from_initially_empty_module_cache": "PASS",
+  "fresh_os_or_postgresql_installation": "NOT_VERIFIED",
+  "actual_new_entrypoint_path_discovery_and_spaced_unicode_work_path": "PASS",
+  "entrypoint_reused_populated_cache_offline": true,
+  "actual_selected_go_test_and_clean_restart_row_check": "PASS",
+  "owned_services_stopped_and_source_unchanged": true,
+  "python_tests": {
+    "reader": 21,
+    "entrypoint": 7,
+    "total": 28
+  },
+  "test_fixtures_not_native_integration_evidence": true,
+  "public_report_variants": [
+    "genuine_completed_run",
+    "genuine_early_build_failure",
+    "changed_inspection_copy"
+  ],
+  "changed_copy_is_not_a_second_database_scenario": true,
+  "desktop1440_mobile390_values_keyboard_print_links_reduced_motion": "PASS",
+  "new_source_sha256": {
+    "tools/run_rehearsal.py": "562528566df619be93a55929526eac278b500835fb6d16f33848f695079d1e6e",
+    "tools/review_run.py": "38eef0ee02131d8c663850b2bee382e601e8a0ece2a13dbb0597d8d74c9b5165",
+    "tools/test_run_rehearsal.py": "6cccddfe66ba5d0010524197594505540d50f5db95c44d8736b7d71a8b0e01dd",
+    "tools/test_review_run.py": "e35e8d2930299f3c5e7c7f4136fa195e153ff4717988c5d54d6108a53f35e1bf"
+  },
+  "new_commit_remote_ci": "UNRUN; source, Python tests and build/compile only; no database execution",
+  "historical_ci": {
+    "id": 38060138489,
+    "head": "6bec69644d0744d30844820a9b4c4f3c775d6aae",
+    "conclusion": "success"
+  },
+  "limits": [
+    "Unauthenticated editable historical evidence",
+    "No live database queries by reader",
+    "No full upstream suite, power-loss/crash recovery, failover, load, exactly-once or production guarantee"
+  ]
+}

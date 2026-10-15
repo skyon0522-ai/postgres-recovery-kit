@@ -1,0 +1,122 @@
+{
+  "selected_stdout": [
+    {
+      "phase": "go-version",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "ed4307d760c597256afdc696a61d47d13e832615d7741ead11c64966a440b376",
+      "current_stdout_sha256": "ed4307d760c597256afdc696a61d47d13e832615d7741ead11c64966a440b376",
+      "stdout_matches": true
+    },
+    {
+      "phase": "postgres-version",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "b040f954933f5335d04100a7ea81ef2deae74af720d5d29ea19e1c889c01d271",
+      "current_stdout_sha256": "b040f954933f5335d04100a7ea81ef2deae74af720d5d29ea19e1c889c01d271",
+      "stdout_matches": true
+    },
+    {
+      "phase": "build-copied-server",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "current_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_matches": true
+    },
+    {
+      "phase": "component-module-verify",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "b4537ed75f533f993f371954de47e42a793b8e5b0587577de7e27fb3e50696bd",
+      "current_stdout_sha256": "b4537ed75f533f993f371954de47e42a793b8e5b0587577de7e27fb3e50696bd",
+      "stdout_matches": true
+    },
+    {
+      "phase": "build-recovery-test",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "current_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_matches": true
+    },
+    {
+      "phase": "example-module-verify",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "b4537ed75f533f993f371954de47e42a793b8e5b0587577de7e27fb3e50696bd",
+      "current_stdout_sha256": "b4537ed75f533f993f371954de47e42a793b8e5b0587577de7e27fb3e50696bd",
+      "stdout_matches": true
+    },
+    {
+      "phase": "copied-module-path",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "5f53df1a3abeb9cee4e07957799aebb098bb8020e4eaa45933a29391f351f072",
+      "current_stdout_sha256": "5f53df1a3abeb9cee4e07957799aebb098bb8020e4eaa45933a29391f351f072",
+      "stdout_matches": true
+    },
+    {
+      "phase": "initdb",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "903a3fe9c2c56ae5618db5f1b768ac48b13f93d31f3b5a7294cc98fe855655f9",
+      "current_stdout_sha256": "903a3fe9c2c56ae5618db5f1b768ac48b13f93d31f3b5a7294cc98fe855655f9",
+      "stdout_matches": true
+    },
+    {
+      "phase": "postgres-start",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+      "current_stdout_sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+      "stdout_matches": true
+    },
+    {
+      "phase": "createdb",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "current_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_matches": true
+    },
+    {
+      "phase": "durability-settings",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "cbd67ec75dfc8e2f588cfccdf7346105fbdce786c538fb48b5c729029f102d60",
+      "current_stdout_sha256": "cbd67ec75dfc8e2f588cfccdf7346105fbdce786c538fb48b5c729029f102d60",
+      "stdout_matches": true
+    },
+    {
+      "phase": "TestDurableRecovery",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "4c3e60e01b307ef7d46caabac0a87cf01b2d3938b9717237bdb1de8866f6b6b0",
+      "current_stdout_sha256": "7e41b07e872a912130510dab09786a3637c0168b1c79d8fa8b75a91aed55041d",
+      "stdout_matches": false
+    },
+    {
+      "phase": "postgres-restart",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "8db95e2a0ec84c72c6d7118a29a204a2513b26251c88fbc2e2f5eb0bd8fbbd6a",
+      "current_stdout_sha256": "8db95e2a0ec84c72c6d7118a29a204a2513b26251c88fbc2e2f5eb0bd8fbbd6a",
+      "stdout_matches": true
+    },
+    {
+      "phase": "durable-row-readback",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "b1a81dfa24480ea28a0ba44902a45783cdfc731c21ddea4d2888bed6dd55aea4",
+      "current_stdout_sha256": "b1a81dfa24480ea28a0ba44902a45783cdfc731c21ddea4d2888bed6dd55aea4",
+      "stdout_matches": true
+    },
+    {
+      "phase": "postgres-stop",
+      "recorded_exit_success": true,
+      "recorded_stdout_sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "current_stdout_sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "stdout_matches": true
+    }
+  ],
+  "scenario_checks": {
+    "ordered_original_test_events": false,
+    "refused_write_has_zero_rows": true,
+    "lost_acknowledgement_has_one_row": false,
+    "same_key_retry_changes_zero_rows": true,
+    "go_test_pass_marker": true
+  },
+  "expected_final_row_count": 3,
+  "exact_expected_final_rows": true,
+  "source_hash_entries_before": 95,
+  "source_hash_entries_after": 95,
+  "recorded_go_version": "Go 1.27.2",
+  "recorded_postgres_version": "PostgreSQL 18.6"
+}

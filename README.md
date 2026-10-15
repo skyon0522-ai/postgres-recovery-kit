@@ -1,60 +1,82 @@
-# PostgreSQL network recovery and keyed retry rehearsal
+# PostgreSQL recovery rehearsal
 
-Rehearse what a database client can observe when a network outage refuses a write, and when a committed write loses its acknowledgement. This local example runs an actual copied Toxiproxy server, a go-pg connection pool and a new synthetic PostgreSQL cluster. It checks recovery through the same pool, a keyed conditional retry and exact rows after a clean database restart.
+[![CI](https://github.com/skyon0522-ai/postgres-recovery-kit/actions/workflows/checks.yml/badge.svg)](https://github.com/skyon0522-ai/postgres-recovery-kit/actions/workflows/checks.yml)
 
-The distinction matters when deciding whether to retry a timed-out operation: a client error alone does not establish that the database rejected it. Here an independent connection observes the committed row before the same key is retried with `ON CONFLICT DO NOTHING`.
+A database timeout does not tell you whether a write committed. Run a local network-fault rehearsal that distinguishes a refused write from a committed write whose reply was lost, then inspect the evidence in an offline report.
 
-## Repository guide
+![Actual recorded recovery result](docs/assets/review.png)
 
-The [runner](tools/verify_recovery.py) starts the local services and selects
-[`TestDurableRecovery`](recovery-improvement/example/recovery_test.go). The
-[adapted example](recovery-improvement/example/), [copied components](components/)
-and [provenance](PROVENANCE.md) show what executes and what was changed.
-Use the [verification record](VERIFICATION.md) for observed results and
-[research note](RESEARCH.md) for the retry rationale.
+The fixed example uses PostgreSQL, Toxiproxy and a go-pg connection pool. It runs against a new synthetic cluster, stops its owned services and retains the data and logs. It accepts no existing-database URL or credentials.
 
-## Run the rehearsal
+[Run on Linux](#run-on-linux) · [Recorded examples](#recorded-examples) · [Inspect the result](#inspect-the-result) · [Implementation](#implementation) · [Verification](#verification) · [Limits](#limits)
 
-Use Linux as a non-root user, Python 3, `ss` from iproute2, Go 1.27.2 and PostgreSQL 18.6 binaries. The runner checks the two runtime versions. Use an existing native Linux output directory; PostgreSQL requires effective private data-directory permissions. Nothing is installed by these commands.
+## Run on Linux
 
-From the repository directory, with the specified Go and PostgreSQL tools on PATH:
+Use a non-root Linux account, Python 3.12, `ss` from iproute2, Go **1.27.2** and PostgreSQL **18.6**. Tools must already be installed; see [Linux setup and operation](docs/linux.md) for version checks, official installation references and explicit tool paths.
+
+With `go` and `pg_config` on PATH, run from this repository:
 
 ```sh
-python3 -B tools/verify_source.py
-mkdir -p "$HOME/.cache/postgres-recovery-kit"
-python3 -B tools/verify_recovery.py \
-  --go "$(command -v go)" \
-  --pg-bin "$(pg_config --bindir)" \
-  --output-parent "$HOME/.cache/postgres-recovery-kit"
+python3 -B tools/run_rehearsal.py \
+  --output-dir "$HOME/.cache/postgres-recovery-kit/run-$(date +%s)"
 ```
 
-If the tools are elsewhere, replace `--go` with the executable path and `--pg-bin` with the PostgreSQL 18.6 binary directory. Normal Go dependency downloads use the standard checksum-verified module route. To reuse an already populated verified module cache without downloading, add `--module-cache /path/to/modules --offline`. The local evidence reused such a cache; a fresh download has not been tested for this stage.
+The command locates the tools, invokes the existing source-checked rehearsal, then prints a JSON record with the `receipt` and `report` paths. Open that `report.html`. No web server, API key or Python package installation is needed. Each run requires a new native Linux output directory outside the checkout; an existing output is refused.
 
-The source check reports `status=source_verified`, `component_files=87`, `adapted_files=8` and an empty `changed` array. The rehearsal builds the copied server and selected test, allocates three fresh loopback ports, runs only `TestDurableRecovery`, performs a clean PostgreSQL restart and reads back:
+The first run acquires Go modules through the original proxy/checksum route. To reuse a populated verified cache without network downloads, add `--module-cache /absolute/path/to/modules --offline`. Build failures preserve logs and cannot produce a successful review. See [the operating guide](docs/linux.md) for failed/interrupted runs and exit codes.
 
-```text
-after-outage|value:after-outage
-before-outage|value:before-outage
-lost-ack|value:lost-ack
-```
+## Recorded examples
 
-Its final JSON identifies the generated `receipt.json`, `status=recovery_and_keyed_retry_passed_restart_readback_verified` and `cleanup_verified=true`. The receipt records `durable_rows_after_restart`, `changed_protected_paths=[]`, `listeners_final=[]` and `postgres_stopped=true`. All owned services stop; the unique cluster data, builds and logs remain under the chosen output parent. Each execution creates a new directory. A failed assertion, command or cleanup returns exit code 1 and preserves the available evidence.
+| Example | What was observed |
+| --- | --- |
+| [Completed rehearsal](examples/completed/report.html) | A real local test distinguished refusal from lost acknowledgement; same-key retry affected zero rows, the exact three-row set survived a clean restart, and owned services stopped. |
+| [Failed offline build](examples/failed-build/report.html) | An incomplete offline module cache stopped the real build before any service started. The report marks the scenario as uncorroborated. |
+| [Changed inspection evidence](examples/changed-evidence/report.html) | One log line was changed in a separate inspection copy while the saved receipt still said success. Hash and ordered-event checks reject it. This is a diagnostic control, not another database run. |
 
-## Demonstrated behavior
+These are static inspection outputs containing selected checks and hashes. Raw logs, local paths, ports, credentials and database values are not distributed with them. GitHub may show HTML source; download the example's three files together and open `report.html` locally.
 
-1. A pre-outage keyed write inserts one row.
-2. Disabling the proxy makes Ping and the outage write fail; the independent observer finds no outage row.
-3. Restoring the proxy lets the same pool recover within a five-second acceptance bound and insert a post-outage row.
-4. A downstream timeout drops one acknowledgement. The client returns an I/O timeout while the independent observer finds the exact committed row.
-5. Removing the toxic lets the same pool recover. Repeating the same key affects zero rows and preserves its payload.
-6. A clean PostgreSQL restart retains all three exact key/payload pairs with `fsync`, `synchronous_commit` and `full_page_writes` set to `on`.
+## Inspect the result
 
-[PROVENANCE.md](PROVENANCE.md) identifies the executed copies and adaptation. [VERIFICATION.md](VERIFICATION.md) separates historical baseline evidence, the corrected recovery check and the portable stage run.
+The report separates the current evidence checks from the historical database observations. A saved success string alone is insufficient: the selected step exits, stdout hashes, ordered test events, source checks, exact final rows, restart and recorded cleanup must agree.
 
-[RESEARCH.md](RESEARCH.md) explains the acknowledged-write uncertainty that motivates this specific rehearsal.
+| Situation | Client sees | Independent observation in this fixed test |
+| --- | --- | --- |
+| Proxy disabled | Connection/write error | Zero rows for that write |
+| Reply dropped after commit | I/O timeout | One committed row with its expected payload |
+| Same key retried after recovery | Zero affected rows | Original row preserved; exact three-row set after a clean restart |
+
+To inspect an existing receipt again, use the [read-only review command](docs/linux.md#read-a-recorded-result-again). It makes no database connection and adds no automatic write retry. The report has a narrow-screen layout, keyboard-accessible details and tables, JSON links and print-visible scope.
+
+## Implementation
+
+| Path | Responsibility |
+| --- | --- |
+| [tools/run_rehearsal.py](tools/run_rehearsal.py) | Linux tool discovery, exclusive new work directory, original-runner invocation and retained failure output |
+| [tools/verify_recovery.py](tools/verify_recovery.py) | Existing real server build, synthetic cluster, selected test, restart readback and cleanup |
+| [recovery-improvement/example/recovery_test.go](recovery-improvement/example/recovery_test.go) | Actual proxy faults, same-pool recovery, direct observer and keyed SQL retry |
+| [tools/review_run.py](tools/review_run.py) | Bounded read-only evidence inspection and static report |
+| [tools/verify_source.py](tools/verify_source.py) | Original component/adapter source-byte and license guard |
+| [docs/linux.md](docs/linux.md) | Setup, commands, outcomes and failure inspection |
+
+Go continues to run the network-fault test and copied server. The new Python interface reuses the existing standard-library coordination and the Backup Restore Drill report pattern; it adds no dependency or database-recovery implementation. [DESIGN.md](DESIGN.md) explains the boundary. [RESEARCH.md](RESEARCH.md) maps the acknowledgement failure window to its inspected CIDR 2007 position paper.
+
+<details>
+<summary>Source and required notices</summary>
+
+[PROVENANCE.md](PROVENANCE.md), [source-copy-manifest.json](source-copy-manifest.json), [LICENSE](LICENSE), the component notices and the existing adaptation records identify the exact reused source and changes. The 87 copied component files, eight protected Go adapter files, dependency locks, original runner and source guard remain unchanged in this increment.
+
+</details>
+
+## Verification
+
+On 2026-10-15, Ubuntu 24.04 x86_64 with existing Go 1.27.2 and PostgreSQL 18.6 passed the actual native rehearsal after normal module acquisition into an initially empty run-local cache. Both module-verification steps passed. A second new cluster exercised the new entrypoint with PATH discovery, an output path containing spaces/Japanese text and the newly populated cache offline. All owned services stopped and all protected source hashes matched.
+
+The new Python tools passed **28 tests**. The three actual report variants passed desktop/mobile JSON agreement, keyboard, local-link, print-scope and reduced-motion checks. [VERIFICATION.md](VERIFICATION.md) and [the Linux record](verification/linux-review-20261015.json) distinguish the native executions, protocol unit tests, diagnostic copy and rendering checks.
+
+Historical [CI run 38060138489](https://github.com/skyon0522-ai/postgres-recovery-kit/actions/runs/38060138489) succeeded at base `6bec69644d0744d30844820a9b4c4f3c775d6aae`. The changed workflow is prepared for source checks, Python tests, server build and test compilation. Its new-commit remote run is unperformed; it does not execute the database scenario.
 
 ## Limits
 
-This is one deterministic, sequential synthetic scenario with loopback-only listeners and trust authentication. It establishes this pool's recovery and this keyed SQL operation's observed behavior. It does not establish general exactly-once execution, concurrent replay safety, failover, crash or power-loss recovery, load capacity or production readiness. The five-second limit applies to each recovery acceptance check; the entire test and cleanup can take longer.
+This is one sequential synthetic network-fault scenario with loopback trust authentication. Records are editable and unauthenticated; the viewer does not report the database's current state. Clean-restart survival does not establish crash or power-loss recovery, general exactly-once execution, concurrent replay safety, failover, load capacity or production readiness.
 
-The original example's schema, seed and processing functions are retained and compiled; the selected recovery test does not execute them. Do not run `main.go` as this rehearsal: it retains the upstream example's original database and port choices. The retained latency/reset tests are not selected by the runner. The workflow currently configures source checks and compilation only; remote CI has not run.
+The five-second acceptance bound applies to each same-pool recovery check, not the entire command. A fresh OS/PostgreSQL installation and the full upstream suite remain unverified. The original schema/seed functions and retained latency/reset tests compile but are not selected. Run the documented entrypoint rather than the retained `main.go`, which has upstream port/database assumptions. See [SECURITY.md](SECURITY.md) for data, permissions, interruption and problem reporting.

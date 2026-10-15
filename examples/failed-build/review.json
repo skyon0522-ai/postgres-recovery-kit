@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "status": "failed_or_mismatch",
+  "evidence_passed": false,
+  "input_receipt_sha256": "f62a9f044ab1fffcbfa2bdd6b9a4c4ce4fffcba8a30173c40b6d18eb310534ce",
+  "checks": {
+    "recorded_success_status": false,
+    "recorded_synthetic_scope": true,
+    "selected_phase_order_and_exits": false,
+    "current_selected_stdout_hashes": false,
+    "recorded_versions": true,
+    "recorded_source_unchanged": false,
+    "recorded_durability_settings": false,
+    "recorded_restart": false,
+    "recorded_exact_final_rows": false,
+    "recorded_cleanup": true,
+    "ordered_original_test_events": false,
+    "refused_write_has_zero_rows": false,
+    "lost_acknowledgement_has_one_row": false,
+    "same_key_retry_changes_zero_rows": false,
+    "go_test_pass_marker": false
+  },
+  "scope": "This review reads selected local receipt and stdout files only. It makes no live database connection. The historical evidence is editable and unauthenticated; matching hashes do not authenticate it. This synthetic network-fault rehearsal does not establish backup recovery, power-loss safety, general exactly-once delivery or production readiness."
+}
